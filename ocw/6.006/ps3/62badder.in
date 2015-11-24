@@ -1,0 +1,118 @@
+# 2 bit adder test
+table eq 0 1
+table not 1 0
+table or 0 1 1 1
+table and 0 0 0 1
+table xor 0 1 1 0
+
+type in eq 0
+type not not 4
+type or or 4
+type and and 4
+type xor xor 4
+
+gate a0 in
+gate a1 in
+gate b0 in
+gate b1 in
+gate s0e in
+gate s1e in
+gate c1e in
+gate ha_xor xor a0 b0
+gate ha_and and a0 b0
+gate fa_xor1 xor a1 b1
+gate fa_xor2 xor fa_xor1 ha_and
+gate fa_and1 and a1 b1
+gate fa_and2 and a1 ha_and
+gate fa_and3 and b1 ha_and
+gate fa_or1 or fa_and1 fa_and2
+gate fa_or2 or fa_or1 fa_and3
+gate s0 and s0e ha_xor
+gate s1 and s1e fa_xor2
+gate c1 and c1e fa_or2
+
+probe s0
+probe s1
+probe c1
+
+flip s0e 0 0
+flip s1e 0 0
+flip c1e 0 0
+
+flip a0 1 0
+flip a1 0 0
+flip b0 0 0
+flip b1 0 0
+flip s0e 1 16
+flip s1e 1 16
+flip c1e 1 16
+flip s0e 0 20
+flip s1e 0 20
+flip c1e 0 20
+
+flip a0 1 16
+flip a1 0 16
+flip b0 1 16
+flip b1 0 16
+flip s0e 1 36
+flip s1e 1 36
+flip c1e 1 36
+flip s0e 0 40
+flip s1e 0 40
+flip c1e 0 40
+
+flip a0 1 36
+flip a1 0 36
+flip b0 0 36
+flip b1 1 36
+flip s0e 1 56
+flip s1e 1 56
+flip c1e 1 56
+flip s0e 0 60
+flip s1e 0 60
+flip c1e 0 60
+
+flip a0 0 56
+flip a1 1 56
+flip b0 0 56
+flip b1 1 56
+flip s0e 1 76
+flip s1e 1 76
+flip c1e 1 76
+flip s0e 0 80
+flip s1e 0 80
+flip c1e 0 80
+
+flip a0 1 76
+flip a1 1 76
+flip b0 0 76
+flip b1 1 76
+flip s0e 1 96
+flip s1e 1 96
+flip c1e 1 96
+flip s0e 0 100
+flip s1e 0 100
+flip c1e 0 100
+
+flip a0 1 96
+flip a1 1 96
+flip b0 1 96
+flip b1 1 96
+flip s0e 1 116
+flip s1e 1 116
+flip c1e 1 116
+flip s0e 0 120
+flip s1e 0 120
+flip c1e 0 120
+# Random test
+flip a0 0 116
+flip a1 0 116
+flip b0 1 116
+flip b1 1 116
+flip s0e 1 136
+flip s1e 1 136
+flip c1e 1 136
+flip s0e 0 140
+flip s1e 0 140
+flip c1e 0 140
+done
