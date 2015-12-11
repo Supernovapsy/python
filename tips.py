@@ -129,7 +129,7 @@ print dict()
 # which can be used to access all non-formal keyword arguments. The ** parameter will pick up on any keyword
 # arguments called which are not defined in the formal parameter list, and keyword arguments can be
 # called in any order, whether they are in the formal list or not. However, the * parameter introduces a restriction
-# to the function, which restricts the "keyword mode" of formal paramter to be used. When the * parameter is used in a 
+# to the function, which restricts the "keyword mode" of formal paramter to be used. When the * parameter is used in a
 # function definition, all keyword arguments must be for the ** parameter.
 
 # More conveniently, the rule can be stated as follows:
@@ -183,7 +183,7 @@ test(1)
 print '\n'
 # This is now allowed because positional arguments MUST precede keyword arguments
 '''test(1, b=2, 3)'''
-# Only extra positional arguments will be picked up by informal argument type 1 (i.e. *c), 
+# Only extra positional arguments will be picked up by informal argument type 1 (i.e. *c),
 # and only extra keyword arguments will be picked up by informal argument type 2 (i.e. **c)
 
 # Also cannot redefine positional arguments
@@ -374,6 +374,22 @@ useful_module.print_hi()
 print "Or, of course, have __all__ = ['useful_module_4'] in __init__.py"
 from pkg_test_4 import *
 useful_module_4.print_hi()
+
+# Python exceptions has a 'finally' statement which always gets excecuted in a
+# try-except-else block for cleanup operations, even if there is a return
+# statement in the try clause.
+
+# Since functions will return the last value specified by a return statement,
+# the code below will return what is in the finally clause, but not what is in
+# the try clause.
+
+def finally_always():
+    try:
+        return 'Hello one world!'
+    finally:
+        return 'Hello two world!'
+
+print finally_always()
 
 ################## CLASSES #######################
 ## Namespaces DO THESE TESTS IN ORDER ##
