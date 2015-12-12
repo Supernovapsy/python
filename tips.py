@@ -385,9 +385,9 @@ useful_module_4.print_hi()
 
 def finally_always():
     try:
-        return 'Hello one world!'
+        return 'Hello one world!\n'
     finally:
-        return 'Hello two world!'
+        return 'Hello two world!\n'
 
 print finally_always()
 
@@ -397,7 +397,10 @@ print finally_always()
 # middle and lowest-level scopes (i.e. all lower-level scopes):
 # 1) Comment [2] and [5]
 # 2) Uncomment all code from [1], [3], [4a], [4b]
-# Explanation: global names are accessible in any middle and local scope.
+# Explanation: global names are accessible in any middle and local scope;
+# further, since the value of variables are determined dynamically, even though
+# a is defined before a function, as long as it exists at the time the function
+# is being called, its value will be retrieved.
 
 # To test the read-only property of global names, and that
 # scopes are defined TEXTUALLY before runtime:
@@ -522,10 +525,14 @@ inv.add_investment_twice(5)
 
 class Op:
     # The name self has absolutely no special meaning in Python.
+    # The only special meaning occurs when an object's method is called. In
+    # this case, the function is called with the first argument the object
+    # reference to the object itself.
     def __init__(self, u):
         self.x = u
     # Special functions have names of the form __<name>__.
-    # NOTE that although they have 2 preceding underscores AND more than 1 underscore appended, there is no name mangling.
+    # NOTE that since they don't meet the requirement of 2 or more preceding
+    # underscores and NO MORE than 1 underscore appended, there is no name mangling.
     def __lt__(self, other):
         print "__lt__ is being called."
         return self.x < other.x
