@@ -393,8 +393,31 @@ print finally_always()
 
 ################## CLASSES #######################
 ## Namespaces DO THESE TESTS IN ORDER ##
-# To test the property that global names are accessible by all
-# middle and lowest-level scopes (i.e. all lower-level scopes):
+# Remember that when accessing a name in an ancestor scope, the variable is by
+# default "global", i.e. accessible, if it is only read by the current scope.
+# However, if the name is assigned a value anywhere within the scope then the
+# variable is by default "local", which causes any references to it before
+# its assignment to raise an UnboundLocalError complaining about this.
+
+# Example:
+var = 0
+def foo():
+    print var
+    var = 1
+try:
+    foo()
+except UnboundLocalError:
+    print "Need to declare var as global in foo.\n"
+
+# In Python, it is then the convention, and really the only way to do things,
+# to just refer to a global variable when it is just being read, and declare it
+# to be global specifically within the child scope when its value is to be
+# modified. This way there will exist a system where an explicit declaration
+# has to be made to say that a variable is to be modified, while not defeating
+# the purpose by needlessly requiring this declaration when the value is simply
+# accessed.
+
+# To test the property that names in ancestor scopes are readable:
 # 1) Comment [2] and [5]
 # 2) Uncomment all code from [1], [3], [4a], [4b]
 # Explanation: global names are accessible in any middle and local scope;
@@ -402,8 +425,8 @@ print finally_always()
 # a is defined before a function, as long as it exists at the time the function
 # is being called, its value will be retrieved.
 
-# To test the read-only property of global names, and that
-# scopes are defined TEXTUALLY before runtime:
+# To test the by-default accessible property of ancestor names which are not
+# modified, and that scopes are defined TEXTUALLY before runtime:
 # 1) Uncomment [2]
 # Scopes are defined textually, and is determined by WHERE something is defined.
 # So, both inner2() and class Test
@@ -431,6 +454,8 @@ print finally_always()
 # 1) Comment [5]
 # 2) Uncomment [2]
 # 3) Comment out [4]
+# Presumably this is because classes are not in their own scopes, and as a
+# result cannot use variables from children scopes.
 
 # To test the property that an equal-level function cannot use
 # the already-defined names of an equal-level function:
@@ -438,6 +463,8 @@ print finally_always()
 # 2) Uncomment [2]
 # 3) Comment out [4a] and [4b]
 # 4) Comment out just ", a" from [3]
+# Presumably this is because sibling scopes are inherently separate from each
+# other and cannot access each other.
 
 # To test the property that a lower-level function CAN use an
 # already-defined name of an upper-level function:
@@ -449,15 +476,15 @@ print finally_always()
 # 5) Comment out just ", a" at [1]
 
 def inner2():
-    print "inner2:", a # [1]
+    print "inner2:", scope_testing_variable # [1]
 
 def inner():
-    # a = 512 # [2]
-    print "inner:", a
+    # scope_testing_variable = 512 # [2]
+    print "inner:", scope_testing_variable
     test = Test() # Note: scope for test's functions (of class Test) are in the global scope.
     inner2() # Note: scope for inner2() is in the global scope.
     def inner_of_inner():
-        print "inner_of_inner:", a
+        print "inner_of_inner:", scope_testing_variable
     inner_of_inner()
 
 # This class' scope can only refer to the global namespace and
@@ -465,12 +492,12 @@ def inner():
 # its definition.
 class Test:
     def __init__(self):
-        print "Class test:", a # [3]
+        print "Class test:", scope_testing_variable # [3]
 
 # inner() # [5]
-a = 5 # [4a]
+scope_testing_variable = 5 # [4a]
 inner()
-print "global:", a # [4b]
+print "global:", scope_testing_variable # [4b]
 
 print "Notice that the scope immediately within the main module defines a" \
     " global namespace (directly under that of the built-in namespace) which" \
