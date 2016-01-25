@@ -585,12 +585,12 @@ for i in randns:
 for i in sorted(counts.keys()):
   print "%d: %d" % (i, counts[i])
 
-'''
+"""
 refs = dict()
 for pagenumber, page in enumerate(pages):
   for word in page:
     refs.setdefault(word, []).append(pagenumber)
-'''
+"""
 class base:
     def __init__(self):
         x = 0
